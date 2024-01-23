@@ -102,3 +102,32 @@ export const deleteAccount = async (req: Request, res: Response) => {
     });
   }
 };
+
+export const signinUser = async (req: Request, res: Response) => {
+  try {
+    const { email, password } = req.body;
+    const user = await userModel.findOne({ email });
+    if (user) {
+      const check = await bcrypt.compare(password, user?.password!);
+      if (check) {
+        return res.status(200).json({
+          message: "Signed in successfully",
+          data: user,
+        });
+      } else {
+        return res.status(400).json({
+          message: "Password Error!!",
+        });
+      }
+    } else {
+      return res.status(404).json({
+        message: "User not found",
+      });
+    }
+  } catch (error: any) {
+    return res.status(400).json({
+      message: "Error occured",
+      data: error?.message,
+    });
+  }
+};

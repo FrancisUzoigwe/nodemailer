@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteAccount = exports.viewOneAccount = exports.verifyAccount = exports.viewAll = exports.registerUser = void 0;
+exports.signinUser = exports.deleteAccount = exports.viewOneAccount = exports.verifyAccount = exports.viewAll = exports.registerUser = void 0;
 const userModel_1 = __importDefault(require("../model/userModel"));
 const crypto_1 = __importDefault(require("crypto"));
 const email_1 = require("../config/email");
@@ -120,3 +120,35 @@ const deleteAccount = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.deleteAccount = deleteAccount;
+const signinUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { email, password } = req.body;
+        const user = yield userModel_1.default.findOne({ email });
+        if (user) {
+            const check = yield bcrypt_1.default.compare(password, user === null || user === void 0 ? void 0 : user.password);
+            if (check) {
+                return res.status(200).json({
+                    message: "Signed in successfully",
+                    data: user,
+                });
+            }
+            else {
+                return res.status(400).json({
+                    message: "Password Error!!",
+                });
+            }
+        }
+        else {
+            return res.status(404).json({
+                message: "User not found",
+            });
+        }
+    }
+    catch (error) {
+        return res.status(400).json({
+            message: "Error occured",
+            data: error === null || error === void 0 ? void 0 : error.message,
+        });
+    }
+});
+exports.signinUser = signinUser;

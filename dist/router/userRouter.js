@@ -6,4 +6,6 @@ const router = (0, express_1.Router)();
 router.route("/register").post(userController_1.registerUser);
 router.route("/view").get(userController_1.viewAll);
 router.route("/:userID/:token/verify-account").patch(userController_1.verifyAccount);
+router.route("/:userID/delete-account").delete(userController_1.deleteAccount);
+router.route("/signin").post(userController_1.signinUser);
 exports.default = router;
