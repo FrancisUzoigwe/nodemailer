@@ -119,10 +119,10 @@ export const signinUser = async (req: Request, res: Response) => {
           message: "Password Error!!",
         });
       }
-    } else {
+    }else{
       return res.status(404).json({
-        message: "User not found",
-      });
+        message : "User not found"
+      })
     }
   } catch (error: any) {
     return res.status(400).json({
