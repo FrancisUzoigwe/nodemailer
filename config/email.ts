@@ -1,8 +1,9 @@
-import { google } from "googleapis";
 import nodemailer from "nodemailer";
+import { google } from "googleapis";
 import jwt from "jsonwebtoken";
-import ejs from "ejs";
 import path from "path";
+import ejs from "ejs";
+
 const google_id =
   "172413036255-qdhvp5rcl2ig1ibnb9jbmp49p6rksbjg.apps.googleusercontent.com";
 
@@ -16,11 +17,11 @@ const google_url = "https://developers.google.com/oauthplayground";
 const oAuth = new google.auth.OAuth2(google_id, google_secret, google_url);
 oAuth.setCredentials({ access_token: google_refresh });
 
-export const verifyAccount = async (user: any) => {
+export const sendEmail = async (user: any) => {
   try {
     const getAccess: any = (await oAuth.getAccessToken()).token;
 
-    const transport = nodemailer.createTransport({
+    const transport: any = nodemailer.createTransport({
       service: "gmail",
       auth: {
         type: "OAuth2",
@@ -32,29 +33,27 @@ export const verifyAccount = async (user: any) => {
       },
     });
 
-    const token = jwt.sign({ id: user?._id, userToken: user?.token }, "code");
+    const token = jwt.sign({ id: user?._id, token: user?.token }, "code");
 
-    const readFile = path.join(__dirname, "./verify.ejs");
-
-    const readData = ejs.renderFile(readFile, {
-      firstName: user?.firstName,
-      lastName: user?.lastName,
+    const readFile: any = path.join(__dirname, "../views/index.ejs");
+    const data: any = await ejs.renderFile(readFile, {
+      name: user?.name,
       email: user?.email,
       token: user?.token,
-      url: `http://localhost:2345/api/${token}/verify`,
+      url: `http://localhost:3200/api/${token}/verify-account`,
     });
 
-    const mailer = {
-      from: "SwiftCart <kossyuzoigwe@gmail.com>",
+    const mailer: any = {
+      from: "SwiftCart Team <kossyuzoigwe@gmail.com>",
       to: user?.email,
       subject: "Account Verification",
-      readData,
+      html: data,
     };
 
     await transport.sendMail(mailer).then(() => {
-      console.log("Sent!!");
+      console.log("Sent to Agbawo");
     });
   } catch (error: any) {
-    console.log("This is the error:",error?.message);
+    console.log(error?.message);
   }
 };

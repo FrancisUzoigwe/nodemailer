@@ -1,16 +1,18 @@
 import express, { Application } from "express";
+import env from "dotenv";
 import { mainApp } from "./mainApp";
-import { flexiDB } from "./config/flexiDB";
+import { testdb } from "./config/testdb";
+env.config();
 
 const app: Application = express();
-const port: number = 2345;
+const port = process.env.PORT!;
 
 mainApp(app);
 const Server = app.listen(port, () => {
-flexiDB
+  testdb
 });
 
-process.on("uncaughtException", (error: Error) => {
+process.on("uncaughtException", (error) => {
   console.log("Server is shutting down due to an uncaught exception", error);
   process.exit(1);
 });
