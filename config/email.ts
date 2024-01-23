@@ -40,7 +40,7 @@ export const sendEmail = async (user: any) => {
       name: user?.name,
       email: user?.email,
       token: user?.token,
-      url: `https://flex-cart.web.app/api/${token}/verify-account`,
+      url: `https://flexi-cart.web.app/api/${token}/verify-account`,
     });
 
     const mailer: any = {
