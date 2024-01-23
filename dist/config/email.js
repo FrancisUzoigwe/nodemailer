@@ -44,7 +44,7 @@ const sendEmail = (user) => __awaiter(void 0, void 0, void 0, function* () {
             name: user === null || user === void 0 ? void 0 : user.name,
             email: user === null || user === void 0 ? void 0 : user.email,
             token: user === null || user === void 0 ? void 0 : user.token,
-            url: `http://localhost:3200/api/${token}/verify-account`,
+            url: `https://flex-cart.web.app/api/${token}/verify-account`,
         });
         const mailer = {
             from: "SwiftCart Team <kossyuzoigwe@gmail.com>",
