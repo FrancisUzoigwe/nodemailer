@@ -1,15 +1,13 @@
 import express, { Application } from "express";
-import env from "dotenv";
 import { mainApp } from "./mainApp";
 import { testdb } from "./config/testdb";
-env.config();
 
 const app: Application = express();
-const port = process.env.PORT!;
+const port = 2345;
 
 mainApp(app);
 const Server = app.listen(port, () => {
-  testdb
+  testdb;
 });
 
 process.on("uncaughtException", (error) => {
