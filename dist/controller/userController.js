@@ -68,14 +68,14 @@ const verifyAccount = (req, res) => __awaiter(void 0, void 0, void 0, function* 
                 verified: true,
                 new: true,
             });
-            return res.status(200).json({
+            return res.status(201).json({
                 message: "Successfully verified",
                 data: realUser,
             });
         }
         else {
-            return res.status(400).json({
-                message: "Error verifying user",
+            return res.status(403).json({
+                message: "user not verified",
             });
         }
     }
@@ -140,7 +140,7 @@ const signinUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         }
         else {
             return res.status(404).json({
-                message: "User not found"
+                message: "User not found",
             });
         }
     }

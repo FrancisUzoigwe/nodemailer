@@ -54,13 +54,13 @@ export const verifyAccount = async (req: Request, res: Response) => {
         verified: true,
         new: true,
       });
-      return res.status(200).json({
+      return res.status(201).json({
         message: "Successfully verified",
         data: realUser,
       });
     } else {
-      return res.status(400).json({
-        message: "Error verifying user",
+      return res.status(403).json({
+        message: "user not verified",
       });
     }
   } catch (error: any) {
@@ -119,10 +119,10 @@ export const signinUser = async (req: Request, res: Response) => {
           message: "Password Error!!",
         });
       }
-    }else{
+    } else {
       return res.status(404).json({
-        message : "User not found"
-      })
+        message: "User not found",
+      });
     }
   } catch (error: any) {
     return res.status(400).json({
