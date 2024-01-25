@@ -7,5 +7,8 @@ const userModel = new mongoose_1.Schema({
     password: { type: String },
     token: { type: String },
     verified: { type: Boolean, default: false },
+    products: [
+        { type: mongoose_1.Types.ObjectId, ref: "products" }
+    ]
 }, { timestamps: true });
 exports.default = (0, mongoose_1.model)("users", userModel);

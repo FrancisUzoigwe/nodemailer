@@ -1,4 +1,4 @@
-import { Document, model, Schema } from "mongoose";
+import { Document, model, Schema, Types } from "mongoose";
 
 interface iUser {
   email?: string;
@@ -6,6 +6,7 @@ interface iUser {
   token?: string;
   password?: string;
   verified?: boolean;
+  products: {}[];
 }
 interface iUserData extends iUser, Document {}
 const userModel = new Schema<iUserData>(
@@ -15,6 +16,9 @@ const userModel = new Schema<iUserData>(
     password: { type: String },
     token: { type: String },
     verified: { type: Boolean, default: false },
+    products: [
+      {type: Types.ObjectId, ref: "products"}
+    ]
   },
   { timestamps: true }
 );
