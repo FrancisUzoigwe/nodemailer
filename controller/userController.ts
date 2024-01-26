@@ -107,7 +107,7 @@ export const signinUser = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
     const user = await userModel.findOne({ email });
-    if (user) {
+    if (user?.verified) {
       const check = await bcrypt.compare(password, user?.password!);
       if (check) {
         return res.status(200).json({

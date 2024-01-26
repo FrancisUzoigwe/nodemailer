@@ -124,7 +124,7 @@ const signinUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     try {
         const { email, password } = req.body;
         const user = yield userModel_1.default.findOne({ email });
-        if (user) {
+        if (user === null || user === void 0 ? void 0 : user.verified) {
             const check = yield bcrypt_1.default.compare(password, user === null || user === void 0 ? void 0 : user.password);
             if (check) {
                 return res.status(200).json({
