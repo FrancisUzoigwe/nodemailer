@@ -12,4 +12,5 @@ router.route("/:userID/create-product").post(upload, productController_1.createP
 router.route("/:productID/delete-product").delete(productController_1.deleteProduct);
 router.route("/view-all-products").get(productController_1.viewAllProduct);
 router.route("/:sellerID/populate").get(productController_1.populateProduct);
+router.route("/:productID/view-one-product").get(productController_1.viewOneProduct);
 exports.default = router;

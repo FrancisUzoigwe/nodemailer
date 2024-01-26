@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.populateProduct = exports.deleteProduct = exports.viewAllProduct = exports.createProduct = void 0;
+exports.viewOneProduct = exports.populateProduct = exports.deleteProduct = exports.viewAllProduct = exports.createProduct = void 0;
 const userModel_1 = __importDefault(require("../model/userModel"));
 const productModel_1 = __importDefault(require("../model/productModel"));
 const streamifier_1 = require("../config/streamifier");
@@ -105,3 +105,20 @@ const populateProduct = (req, res) => __awaiter(void 0, void 0, void 0, function
     }
 });
 exports.populateProduct = populateProduct;
+const viewOneProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { productID } = req.params;
+        const product = yield productModel_1.default.findById(productID);
+        return res.status(200).json({
+            message: "Viewing product",
+            data: product
+        });
+    }
+    catch (error) {
+        return res.status(400).json({
+            message: "Error occured",
+            data: error === null || error === void 0 ? void 0 : error.message
+        });
+    }
+});
+exports.viewOneProduct = viewOneProduct;

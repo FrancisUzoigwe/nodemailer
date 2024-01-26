@@ -3,6 +3,7 @@ import userModel from "../model/userModel";
 import productModel from "../model/productModel";
 import { streamUpload } from "../config/streamifier";
 import { Types } from "mongoose";
+import axios from "axios";
 
 export const createProduct = async (req: Request, res: Response) => {
   try {
@@ -94,3 +95,20 @@ export const populateProduct = async (req: Request, res: Response) => {
     });
   }
 };
+
+
+export const viewOneProduct = async (req: Request, res: Response) => {
+  try {
+    const {productID} = req.params
+    const product = await productModel.findById(productID)
+    return res.status(200).json({
+      message : "Viewing product",
+      data: product
+    })
+  } catch (error: any) {
+    return res.status(400).json({
+      message : "Error occured",
+      data: error?.message
+    })
+  }
+}
