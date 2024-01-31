@@ -5,6 +5,5 @@ cloudinary_1.v2.config({
     api_key: "592862638221346",
     api_secret: "se_JzaK_qd4vPqCnnMVxXppdHmA",
     cloud_name: "dhu54k4vh",
-    secure: true,
 });
 exports.default = cloudinary_1.v2;

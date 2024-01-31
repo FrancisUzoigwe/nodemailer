@@ -2,37 +2,28 @@ import { Request, Response } from "express";
 import userModel from "../model/userModel";
 import productModel from "../model/productModel";
 import { streamUpload } from "../config/streamifier";
-import { Types } from "mongoose";
-import axios from "axios";
 
-export const createProduct = async (req: Request, res: Response) => {
+export const createProduct: any = async (req: any, res: Response) => {
   try {
-    const { userID } = req.params;
     const { name, price } = req.body;
-    const { secure_url, public_id }: any = await streamUpload(req);
-    const user = await userModel.findById(userID);
-    if (user?.verified) {
-      const product = await productModel.create({
-        name,
-        price,
-        image: secure_url,
-        imageID: public_id,
-        userID:user.id
-      });
+    const { secure_url, public_id }: any = await streamUpload(req)
+    console.log("This is :", req?.file);
 
-      user?.products.push(new Types.ObjectId(product._id));
-      user?.save();
-      product?.save();
+    const product = await productModel.create({
+      name,
+      price,
+      image: secure_url,
+      imageID: public_id,
+    });
 
-      return res.status(201).json({
-        message: "Created successfully",
-        data: product,
-      });
-    }
+    return res.status(201).json({
+      message: "Created successfully",
+      data: product,
+    });
   } catch (error: any) {
     return res.status(400).json({
       message: "Error occured",
-      data: error.message,
+      data: error?.stack,
     });
   }
 };
@@ -74,14 +65,12 @@ export const populateProduct = async (req: Request, res: Response) => {
     const seller = await userModel.findById(sellerID);
 
     if (seller) {
-        
       const seeSellerProducts = await productModel.findById(sellerID).populate({
         path: "products",
         options: {
           sort: { createdAt: -1 },
         },
       });
-     
 
       return res.status(200).json({
         message: "Seller's products",
@@ -96,19 +85,18 @@ export const populateProduct = async (req: Request, res: Response) => {
   }
 };
 
-
 export const viewOneProduct = async (req: Request, res: Response) => {
   try {
-    const {productID} = req.params
-    const product = await productModel.findById(productID)
+    const { productID } = req.params;
+    const product = await productModel.findById(productID);
     return res.status(200).json({
-      message : "Viewing product",
-      data: product
-    })
+      message: "Viewing product",
+      data: product,
+    });
   } catch (error: any) {
     return res.status(400).json({
-      message : "Error occured",
-      data: error?.message
-    })
+      message: "Error occured",
+      data: error?.message,
+    });
   }
-}
+};

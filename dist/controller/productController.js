@@ -16,34 +16,26 @@ exports.viewOneProduct = exports.populateProduct = exports.deleteProduct = expor
 const userModel_1 = __importDefault(require("../model/userModel"));
 const productModel_1 = __importDefault(require("../model/productModel"));
 const streamifier_1 = require("../config/streamifier");
-const mongoose_1 = require("mongoose");
 const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { userID } = req.params;
         const { name, price } = req.body;
         const { secure_url, public_id } = yield (0, streamifier_1.streamUpload)(req);
-        const user = yield userModel_1.default.findById(userID);
-        if (user === null || user === void 0 ? void 0 : user.verified) {
-            const product = yield productModel_1.default.create({
-                name,
-                price,
-                image: secure_url,
-                imageID: public_id,
-                userID: user.id
-            });
-            user === null || user === void 0 ? void 0 : user.products.push(new mongoose_1.Types.ObjectId(product._id));
-            user === null || user === void 0 ? void 0 : user.save();
-            product === null || product === void 0 ? void 0 : product.save();
-            return res.status(201).json({
-                message: "Created successfully",
-                data: product,
-            });
-        }
+        console.log("This is :", req === null || req === void 0 ? void 0 : req.file);
+        const product = yield productModel_1.default.create({
+            name,
+            price,
+            image: secure_url,
+            imageID: public_id,
+        });
+        return res.status(201).json({
+            message: "Created successfully",
+            data: product,
+        });
     }
     catch (error) {
         return res.status(400).json({
             message: "Error occured",
-            data: error.message,
+            data: error === null || error === void 0 ? void 0 : error.stack,
         });
     }
 });
@@ -111,13 +103,13 @@ const viewOneProduct = (req, res) => __awaiter(void 0, void 0, void 0, function*
         const product = yield productModel_1.default.findById(productID);
         return res.status(200).json({
             message: "Viewing product",
-            data: product
+            data: product,
         });
     }
     catch (error) {
         return res.status(400).json({
             message: "Error occured",
-            data: error === null || error === void 0 ? void 0 : error.message
+            data: error === null || error === void 0 ? void 0 : error.message,
         });
     }
 });

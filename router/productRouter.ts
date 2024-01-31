@@ -10,7 +10,7 @@ import multer from "multer";
 
 const upload = multer().single("image");
 const router = Router();
-router.route("/:userID/create-product").post(upload, createProduct);
+router.route("/create-product").post(upload, createProduct);
 router.route("/:productID/delete-product").delete(deleteProduct);
 router.route("/view-all-products").get(viewAllProduct);
 router.route("/:sellerID/populate").get(populateProduct);

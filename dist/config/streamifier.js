@@ -17,6 +17,7 @@ const cloudinary_1 = __importDefault(require("./cloudinary"));
 const streamifier_1 = __importDefault(require("streamifier"));
 const streamUpload = (req) => __awaiter(void 0, void 0, void 0, function* () {
     return new Promise((resolve, reject) => __awaiter(void 0, void 0, void 0, function* () {
+        var _a;
         let stream = cloudinary_1.default.uploader.upload_stream((error, result) => {
             if (result) {
                 return resolve(result);
@@ -25,7 +26,7 @@ const streamUpload = (req) => __awaiter(void 0, void 0, void 0, function* () {
                 return reject(error);
             }
         });
-        streamifier_1.default.createReadStream(req.file.buffer).pipe(stream);
+        streamifier_1.default.createReadStream((_a = req === null || req === void 0 ? void 0 : req.file) === null || _a === void 0 ? void 0 : _a.buffer).pipe(stream);
     }));
 });
 exports.streamUpload = streamUpload;
